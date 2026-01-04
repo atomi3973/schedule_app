@@ -112,3 +112,6 @@
 - デプロイ先:Render
 - 使用予定のライブラリ:Devise / Omniauth
 - 使用予定のAPI:LINE Messaging API / Gemini API
+
+## 画面遷移図
+https://www.figma.com/design/Drq8gMqkSVPBwPsXTg6NMx/%E5%8D%92%E5%88%B6%E3%82%A2%E3%83%97%E3%83%AA?t=sLBZ0ILKZgNZGIpK-0
