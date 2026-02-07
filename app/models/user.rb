@@ -1,5 +1,8 @@
 class User < ApplicationRecord
-  devise :omniauthable, omniauth_providers: %i[line]
+  devise :database_authenticatable,
+         :rememberable,
+         :omniauthable,
+         omniauth_providers: %i[line]
 
   def self.from_omniauth(auth)
     user = find_or_initialize_by(provider: auth.provider, uid: auth.uid)
