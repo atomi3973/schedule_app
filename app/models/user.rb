@@ -1,19 +1,18 @@
 class User < ApplicationRecord
-  devise :database_authenticatable,
+   devise :database_authenticatable,
+         :registerable,
+         :recoverable,
          :rememberable,
+         :validatable,
          :omniauthable,
          omniauth_providers: %i[line]
 
   def self.from_omniauth(auth)
-    user = find_or_initialize_by(provider: auth.provider, uid: auth.uid)
-
-    user.name  = auth.info.name
-    user.image = auth.info.image
-
-    # LINEはメール取得が任意なので、なければダミーを入れる
-    user.email ||= "#{auth.uid}-#{auth.provider}@example.com"
-
-    user.save!
-    user
+    where(provider: auth.provider, uid: auth.uid).first_or_create! do |user|
+      user.email = "#{auth.uid}-#{auth.provider}@example.com"
+      user.password = Devise.friendly_token[0, 20]
+      user.name = auth.info.name
+      user.image = auth.info.image
+    end
   end
 end
