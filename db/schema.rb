@@ -10,9 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_07_150345) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_08_113943) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "schedule_templates", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_schedule_templates_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "provider", null: false
@@ -27,4 +35,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_07_150345) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
   end
+
+  add_foreign_key "schedule_templates", "users"
 end
