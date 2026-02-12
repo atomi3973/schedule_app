@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  schedule_template: one
+  comment_type: one
+  scheduled_at: 2026-02-12 18:49:10
+  notification_before_minutes: 1
+  status: MyString
+
+two:
+  user: two
+  schedule_template: two
+  comment_type: two
+  scheduled_at: 2026-02-12 18:49:10
+  notification_before_minutes: 1
+  status: MyString
