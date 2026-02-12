@@ -1,47 +1,31 @@
-<%= form_with model: schedule, local: true, data: { turbo_frame: "_top" } do |f| %>
+<%= form_with model: schedule, data: { turbo_frame: "modal" } do |f| %>
 
-  <!-- テンプレ選択 -->
   <div class="mb-4">
     <%= f.label :schedule_template_id, "予定の種類", class: "block text-sm font-medium mb-1" %>
-    <%= f.collection_select :schedule_template_id,
-          ScheduleTemplate.all,
-          :id,
-          :title,
-          { prompt: "選択してください" },
-          class: "w-full border rounded px-3 py-2" %>
+    <%= f.collection_select :schedule_template_id, ScheduleTemplate.all, :id, :title, { prompt: "選択してください" }, class: "w-full border rounded px-3 py-2", required: true %>
   </div>
 
-  <!-- 日時 -->
   <div class="mb-4">
     <%= f.label :scheduled_at, "日時", class: "block text-sm font-medium mb-1" %>
-    <%= f.datetime_local_field :scheduled_at,
-          class: "w-full border rounded px-3 py-2" %>
+    <%= f.datetime_local_field :scheduled_at, class: "w-full border rounded px-3 py-2", required: true %>
   </div>
 
-  <!-- 通知 -->
   <div class="mb-4">
     <%= f.label :notification_before_minutes, "通知", class: "block text-sm font-medium mb-1" %>
-    <%= f.select :notification_before_minutes,
-          [[ "5分前", 5 ], [ "10分前", 10 ], [ "30分前", 30 ]],
-          {},
-          class: "w-full border rounded px-3 py-2" %>
-  </div>
-  
-  <!-- 通知タイプ -->
-  <div class="mb-4">
-    <%= f.label :comment_type_id, "通知タイプ", class: "block text-sm font-medium mb-1" %>
-    <%= f.collection_select :comment_type_id,
-          CommentType.all,
-          :id,
-          :name,
-          { prompt: "選択してください" },
-          class: "w-full border rounded px-3 py-2" %>
+    <%= f.select :notification_before_minutes, [[ "5分前", 5 ], [ "10分前", 10 ], [ "30分前", 30 ]], {}, class: "w-full border rounded px-3 py-2", required: true %>
   </div>
 
-  <!-- 保存 -->
+  <div class="mb-4">
+    <%= f.label :comment_type_id, "通知タイプ", class: "block text-sm font-medium mb-1" %>
+    <%= f.collection_select :comment_type_id, CommentType.all, :id, :name, { prompt: "選択してください" }, class: "w-full border rounded px-3 py-2", required: true %>
+  </div>
+
   <div class="mt-6 text-center">
-    <%= f.submit "保存",
-          class: "bg-teal-500 text-white px-6 py-2 rounded hover:bg-teal-600" %>
+    <%= f.submit "保存", class: "bg-teal-500 text-white px-6 py-2 rounded hover:bg-teal-600" %>
   </div>
 
 <% end %>
+
+
+
+

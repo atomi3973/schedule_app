@@ -1,0 +1,2 @@
+<%= turbo_stream.prepend "schedules_list", partial: "schedule", locals: { schedule: @schedule } %>
+<%= turbo_stream.update "modal", "" %> <!-- モーダルを閉じる -->

@@ -1,0 +1,27 @@
+<li id="schedule_<%= schedule.id %>" class="bg-white shadow rounded p-4">
+
+  <p class="font-semibold"><%= schedule.schedule_template&.title || "未分類" %></p>
+  <p class="text-sm text-gray-600 mt-1"><%= l schedule.scheduled_at, format: :long %></p>
+  <p class="text-sm text-gray-600">
+    通知：<%= schedule.notification_before_minutes.present? ? "#{schedule.notification_before_minutes}分前" : "なし" %>
+  </p>
+  <p class="text-sm mt-1">
+    状態：
+    <span class="font-medium">
+      <%= schedule.status_i18n  %>
+    </span>
+  </p>
+
+  <div class="mt-3 flex gap-4 text-sm">
+    <%= link_to "編集",
+        edit_schedule_path(schedule),
+        data: { turbo_frame: "modal" },
+        class: "text-blue-600" %>
+
+    <%= link_to "削除",
+        schedule_path(schedule),
+        data: { turbo_method: :delete, turbo_confirm: "削除しますか？" },
+        class: "text-red-600" %>
+  </div>
+
+</li>

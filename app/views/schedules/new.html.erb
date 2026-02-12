@@ -1,23 +1,15 @@
 <turbo-frame id="modal">
-  <!-- 背景オーバーレイ -->
   <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-
-    <!-- モーダル本体 -->
     <div class="bg-white w-full max-w-md rounded-lg shadow-lg p-6">
 
-      <!-- タイトル -->
       <h2 class="text-lg font-bold mb-4 text-center">
-        予定を追加
+        <%= @schedule.new_record? ? "予定を追加" : "予定を編集" %>
       </h2>
 
-      <!-- フォーム -->
       <%= render "form", schedule: @schedule %>
 
-      <!-- 閉じる -->
       <div class="mt-4 text-center">
-        <%= link_to "キャンセル",
-            schedules_path,
-            class: "text-gray-500 underline" %>
+        <%= link_to "キャンセル", schedules_path, class: "text-gray-500 underline" %>
       </div>
 
     </div>
