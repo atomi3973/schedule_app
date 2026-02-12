@@ -1,8 +1,14 @@
 ja:
   activerecord:
-    attributes:
+    enums:
       schedule:
-        statuses:
+        status:
           pending: "未実行"
           done: "完了"
 
+  time:
+    formats:
+      long: "%Y年%m月%d日 %H:%M"
+  date:
+    formats:
+      long: "%Y年%m月%d日"

@@ -12,28 +12,40 @@ class SchedulesController < ApplicationController
 
   def create
     @schedule = current_user.schedules.new(schedule_params)
-    if @schedule.save
-      redirect_to schedules_path, notice: "予定を登録しました"
-    else
-      render :new, status: :unprocessable_entity
+
+    respond_to do |format|
+      if @schedule.save
+        format.turbo_stream { render "create" }
+        format.html { redirect_to schedules_path, notice: "予定を登録しました" }
+      else
+        format.turbo_stream { render "form_errors" }
+        format.html { render :new, status: :unprocessable_entity }
+      end
     end
   end
 
   def edit
-  
   end
 
   def update
-    if @schedule.update(schedule_params)
-      redirect_to schedules_path, notice: "予定を更新しました"
-    else
-      render :edit, status: :unprocessable_entity
+    respond_to do |format|
+      if @schedule.update(schedule_params)
+        format.turbo_stream { render "update" }
+        format.html { redirect_to schedules_path, notice: "予定を更新しました" }
+      else
+        format.turbo_stream { render "form_errors" }
+        format.html { render :edit, status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
     @schedule.destroy
-    redirect_to schedules_path, notice: "予定を削除しました"
+
+    respond_to do |format|
+      format.turbo_stream { render "destroy" }
+      format.html { redirect_to schedules_path, notice: "予定を削除しました" }
+    end
   end
 
   private
@@ -44,11 +56,7 @@ class SchedulesController < ApplicationController
 
   def schedule_params
     params.require(:schedule).permit(
-      :schedule_template_id,
-      :comment_type_id,
-      :scheduled_at,
-      :notification_before_minutes,
-      :status
+      :schedule_template_id, :comment_type_id, :scheduled_at, :notification_before_minutes, :status
     )
   end
 end

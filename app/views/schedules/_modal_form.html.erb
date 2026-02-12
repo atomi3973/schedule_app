@@ -1,15 +1,17 @@
 <turbo-frame id="modal">
   <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
     <div class="bg-white w-full max-w-md rounded-lg shadow-lg p-6">
 
       <h2 class="text-lg font-bold mb-4 text-center">
-        <%= @schedule.new_record? ? "予定を追加" : "予定を編集" %>
+        <%= schedule.new_record? ? "予定を追加" : "予定を編集" %>
       </h2>
 
-      <%= render "form", schedule: @schedule %>
+      <!-- フォーム部分 -->
+      <%= render "form", schedule: schedule %>
 
       <div class="mt-4 text-center">
-        <%= link_to "キャンセル", schedules_path, class: "text-gray-500 underline" %>
+        <%= link_to "キャンセル", schedules_path, data: { turbo_frame: "modal" }, class: "text-gray-500 underline" %>
       </div>
 
     </div>
