@@ -10,9 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_08_113943) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_12_131134) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comment_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "schedule_templates", force: :cascade do |t|
     t.bigint "user_id"
@@ -20,6 +27,20 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_08_113943) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_schedule_templates_on_user_id"
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "schedule_template_id", null: false
+    t.bigint "comment_type_id", null: false
+    t.datetime "scheduled_at", null: false
+    t.integer "notification_before_minutes", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
+    t.index ["comment_type_id"], name: "index_schedules_on_comment_type_id"
+    t.index ["schedule_template_id"], name: "index_schedules_on_schedule_template_id"
+    t.index ["user_id"], name: "index_schedules_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -37,4 +58,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_08_113943) do
   end
 
   add_foreign_key "schedule_templates", "users"
+  add_foreign_key "schedules", "comment_types"
+  add_foreign_key "schedules", "schedule_templates"
+  add_foreign_key "schedules", "users"
 end

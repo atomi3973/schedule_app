@@ -1,0 +1,8 @@
+ja:
+  activerecord:
+    attributes:
+      schedule:
+        statuses:
+          pending: "未実行"
+          done: "完了"
+

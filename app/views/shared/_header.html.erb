@@ -53,6 +53,7 @@
       <!-- ナビ -->
       <nav class="p-4 space-y-4">
         <%= link_to "ホーム", root_path, class: "block" %>
+        <%= link_to "予定", schedules_path, class: "block" %>
 
         <%= button_to "ログアウト",
               destroy_user_session_path,
