@@ -1,5 +1,6 @@
 class SchedulesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_schedule, only: %i[edit update destroy]
 
   def index
     @schedules = current_user.schedules.includes(:schedule_template, :comment_type)
@@ -11,23 +12,43 @@ class SchedulesController < ApplicationController
 
   def create
     @schedule = current_user.schedules.new(schedule_params)
-
     if @schedule.save
       redirect_to schedules_path, notice: "予定を登録しました"
     else
       render :new, status: :unprocessable_entity
     end
   end
-end
 
-private
+  def edit
+  
+  end
 
-def schedule_params
-  params.require(:schedule).permit(
-    :schedule_template_id,
-    :comment_type_id,
-    :scheduled_at,
-    :notification_before_minutes,
-    :status
-  )
+  def update
+    if @schedule.update(schedule_params)
+      redirect_to schedules_path, notice: "予定を更新しました"
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @schedule.destroy
+    redirect_to schedules_path, notice: "予定を削除しました"
+  end
+
+  private
+
+  def set_schedule
+    @schedule = current_user.schedules.find(params[:id])
+  end
+
+  def schedule_params
+    params.require(:schedule).permit(
+      :schedule_template_id,
+      :comment_type_id,
+      :scheduled_at,
+      :notification_before_minutes,
+      :status
+    )
+  end
 end
