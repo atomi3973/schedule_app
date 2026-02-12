@@ -50,10 +50,9 @@
                 class: "text-blue-600" %>
 
             <!-- 削除ボタン -->
-            <%= button_to "削除",
+            <%= link_to "削除",
                 schedule_path(schedule),
-                method: :delete,
-                data: { confirm: "削除しますか？", turbo: false },
+                data: { turbo_method: :delete, turbo_confirm: "削除しますか？" },
                 class: "text-red-600" %>
           </div>
 
