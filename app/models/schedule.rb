@@ -7,7 +7,7 @@ class Schedule < ApplicationRecord
   validates :notification_before_minutes, presence: true
   validates :status, presence: true
 
-  enum status: { pending: 0, done: 1 }
+  enum :status, { pending: 0, done: 1 }
 
   def status_i18n
     return "未設定" if status.nil?
