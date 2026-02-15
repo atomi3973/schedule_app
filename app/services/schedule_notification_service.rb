@@ -5,8 +5,8 @@ class ScheduleNotificationService
 
     Schedule
       .pending
-      .includes(:user, :schedule_template)
-      .where(scheduled_at: now..(now + 1.hour)) 
+      .where(notified_at: nil)
+      .where(scheduled_at: now..(now + 1.hour))
       .find_each do |schedule|
 
         notify_time = schedule.scheduled_at - schedule.notification_before_minutes.minutes
@@ -14,6 +14,9 @@ class ScheduleNotificationService
 
         begin
           line_service.send_schedule_notification(schedule)
+          
+          schedule.update!(notified_at: now)
+          
           puts "通知送信完了(ID:#{schedule.id})"
         rescue => e
           Rails.logger.error "LINE送信失敗 (ID: #{schedule.id}): #{e.message}"

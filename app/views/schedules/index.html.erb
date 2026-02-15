@@ -1,21 +1,18 @@
 <div class="max-w-2xl mx-auto p-4">
   <h1 class="text-xl font-bold mb-6">予定一覧</h1>
 
-  <!-- 予定追加ボタン -->
   <%= link_to "＋ 予定を追加",
       new_schedule_path,
       data: { turbo_frame: "modal" },
       class: "inline-block bg-teal-500 text-white px-4 py-2 rounded mb-6" %>
 
-  <!-- モーダル表示領域 -->
   <turbo-frame id="modal"></turbo-frame>
 
-  <% if @schedules.any? %>
-    <ul id="schedules_list" class="space-y-3 mt-4">
-      <%= render @schedules %>
-    </ul>
-  <% else %>
-    <p class="text-gray-500 mt-8 text-center">まだ予定がありません</p>
+  <ul id="schedules_list" class="space-y-3 mt-4">
+    <%= render @schedules %>
+  </ul>
+
+  <% if @schedules.empty? %>
+    <p id="empty_message" class="text-gray-500 mt-8 text-center">まだ予定がありません</p>
   <% end %>
 </div>
-

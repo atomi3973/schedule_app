@@ -20,6 +20,11 @@
     <%= f.collection_select :comment_type_id, CommentType.all, :id, :name, { prompt: "選択してください" }, class: "w-full border rounded px-3 py-2", required: true %>
   </div>
 
+  <div class="mb-4">
+    <%= f.label :status, "ステータス", class: "block text-sm font-medium mb-1" %>
+    <%= f.select :status, [["未完了", "pending"], ["完了", "done"]], {}, class: "w-full border rounded px-3 py-2", required: true %>
+  </div>
+
   <div class="mt-6 text-center">
     <%= f.submit "保存", class: "bg-teal-500 text-white px-6 py-2 rounded hover:bg-teal-600" %>
   </div>

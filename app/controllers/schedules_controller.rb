@@ -12,7 +12,6 @@ class SchedulesController < ApplicationController
 
   def create
     @schedule = current_user.schedules.new(schedule_params)
-
     respond_to do |format|
       if @schedule.save
         format.turbo_stream { render "create" }
@@ -25,11 +24,18 @@ class SchedulesController < ApplicationController
   end
 
   def edit
+
   end
 
   def update
+    @schedule.assign_attributes(schedule_params)
+
+    if @schedule.status_changed? && @schedule.pending?
+      @schedule.back_to_pending
+    end
+
     respond_to do |format|
-      if @schedule.update(schedule_params)
+      if @schedule.save
         format.turbo_stream { render "update" }
         format.html { redirect_to schedules_path, notice: "予定を更新しました" }
       else
@@ -41,7 +47,6 @@ class SchedulesController < ApplicationController
 
   def destroy
     @schedule.destroy
-
     respond_to do |format|
       format.turbo_stream { render "destroy" }
       format.html { redirect_to schedules_path, notice: "予定を削除しました" }

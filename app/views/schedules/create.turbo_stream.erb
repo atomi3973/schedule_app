@@ -1,2 +1,3 @@
-<%= turbo_stream.prepend "schedules_list", partial: "schedule", locals: { schedule: @schedule } %>
-<%= turbo_stream.update "modal", "" %> <!-- モーダルを閉じる -->
+<%= turbo_stream.prepend "schedules_list", partial: "schedules/schedule", locals: { schedule: @schedule } %>
+<%= turbo_stream.remove "empty_message" %>
+<%= turbo_stream.update "modal", "" %>
