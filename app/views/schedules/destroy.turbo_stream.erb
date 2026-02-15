@@ -1,1 +1,7 @@
 <%= turbo_stream.remove "schedule_#{@schedule.id}" %>
+
+<% if current_user.schedules.empty? %>
+  <%= turbo_stream.after "schedules_list" do %>
+    <p id="empty_message" class="text-gray-500 mt-8 text-center">まだ予定がありません</p>
+  <% end %>
+<% end %>

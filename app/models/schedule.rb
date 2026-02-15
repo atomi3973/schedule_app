@@ -11,9 +11,12 @@ class Schedule < ApplicationRecord
 
   def status_i18n
     return "未設定" if status.nil?
-
     I18n.t("activerecord.enums.schedule.status.#{status}", default: status.to_s)
   end
-end
 
+  def back_to_pending
+    self.status = :pending
+    self.notified_at = nil
+  end
+end
 

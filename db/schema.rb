@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_12_131134) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_15_112411) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,6 +38,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_12_131134) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0, null: false
+    t.datetime "notified_at"
     t.index ["comment_type_id"], name: "index_schedules_on_comment_type_id"
     t.index ["schedule_template_id"], name: "index_schedules_on_schedule_template_id"
     t.index ["user_id"], name: "index_schedules_on_user_id"
