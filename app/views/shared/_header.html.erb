@@ -54,7 +54,15 @@
       <nav class="p-4 space-y-4">
         <%= link_to "ホーム", root_path, class: "block" %>
         <%= link_to "予定", schedules_path, class: "block" %>
-
+        <div class="pt-4 mt-4 border-t border-gray-100">
+          <%= link_to "https://line.me/R/ti/p/@あなたのLINE公式ID", target: "_blank", class: "flex items-center gap-2 text-[#06C755] font-bold hover:opacity-80" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M15.548 6.433c-.328-1.558-1.503-3.264-4.22-3.804C8.61 2.09 5.86 2.053 3.197 3.535 1.55 4.453.498 5.92.11 7.42c-.22.84-.132 1.638.257 2.336a4.4 4.4 0 0 0 1.258 1.43c.18.13.29.352.29.584l-.014.542-.03.882c-.01.32.316.55.606.417l1.79-.817c.21-.097.45-.11.666-.035.533.18 1.1.282 1.685.282 4.194 0 7.593-3.046 7.593-6.804z"/>
+            </svg>
+            LINE友だち追加
+          <% end %>
+          <p class="text-[10px] text-gray-400 mt-1 ml-7">※通知を受け取るのに必要です</p>
+        </div>
         <%= button_to "ログアウト",
               destroy_user_session_path,
               method: :delete,
