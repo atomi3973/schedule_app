@@ -397,8 +397,10 @@ DEPENDENCIES
   capybara
   debug
   devise
+  faraday
   jbuilder
   jsbundling-rails
+  json
   line-bot-api
   omniauth-line
   omniauth-rails_csrf_protection
