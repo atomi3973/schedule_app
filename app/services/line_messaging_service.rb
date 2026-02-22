@@ -7,8 +7,7 @@ class LineMessagingService
     )
   end
 
-  # 予定通知
-  def send_schedule_notification(schedule)
+  def send_schedule_notification(schedule, ai_message = nil)
     return if schedule.user.uid.blank?
 
     text = <<~TEXT
@@ -16,6 +15,8 @@ class LineMessagingService
 
     📌 内容：
     #{schedule.schedule_template.title}
+
+    #{ai_message if ai_message.present? # AIメッセージがあればここに挿入 }
 
     ✅ 完了にする場合は
     「完了 #{schedule.id}」
