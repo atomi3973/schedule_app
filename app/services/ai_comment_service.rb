@@ -4,7 +4,10 @@ class AiCommentService
       credentials: {
         api_key: ENV['GEMINI_API_KEY']
       },
-      options: { model: 'gemini-1.5-flash', server_sent_events: true }
+      options: { 
+        model: 'gemini-1.5-flash', 
+        version: 'v1beta' 
+      }
     )
     
     prompt = <<~PROMPT
@@ -17,7 +20,7 @@ class AiCommentService
       条件：
       - 60文字以内。
       - 絵文字を1つか2つ含める。
-      - 「頑張ってください」だけでなく、予定に寄り添った内容にする。
+      - 予定の内容に寄り添った励ましにする。
     PROMPT
 
     begin
@@ -25,10 +28,14 @@ class AiCommentService
         contents: [{ role: 'user', parts: [{ text: prompt }] }]
       })
       
-      result.dig("candidates", 0, "content", "parts", 0, "text") || "今日も素敵な一日を！"
+      if result && result["candidates"]
+        result.dig("candidates", 0, "content", "parts", 0, "text")
+      else
+        "今日も一日応援しています！"
+      end
     rescue => e
       Rails.logger.error "Gemini生成失敗: #{e.message}"
-      "リマインドです！頑張りましょう！" # 失敗時のバックアップ
+      "リマインドです。頑張りましょう！"
     end
   end
 end
