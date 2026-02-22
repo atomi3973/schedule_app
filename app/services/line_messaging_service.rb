@@ -7,21 +7,23 @@ class LineMessagingService
     )
   end
 
+  # 予定通知
   def send_schedule_notification(schedule, ai_message = nil)
     return if schedule.user.uid.blank?
 
     text = <<~TEXT
-    ⏰ 予定の時間です
+      ⏰ 予定の時間です
 
-    📌 内容：
-    #{schedule.schedule_template.title}
+      📌 内容：
+      #{schedule.schedule_template.title}
 
-    #{ai_message if ai_message.present? # AIメッセージがあればここに挿入 }
+      #{ai_message if ai_message.present?}
 
-    ✅ 完了にする場合は
-    「完了 #{schedule.id}」
-    と返信してください
+      ✅ 完了にする場合は
+      「完了 #{schedule.id}」
+      と返信してください
     TEXT
+    # ↑この TEXT が抜けていたか、インデント（空白）に全角スペースなどが混ざっていた可能性があります
 
     message = Line::Bot::V2::MessagingApi::TextMessage.new(text: text)
 
