@@ -13,10 +13,12 @@ class ScheduleNotificationService
         next unless notify_time <= now
 
         begin
-          line_service.send_schedule_notification(schedule)
+          #Geminiでコメントを生成
+          ai_comment = AiCommentService.generate(schedule)
           
-          schedule.update!(notified_at: now)
+          line_service.send_schedule_notification(schedule, ai_comment)
           
+          schedule.update!(notified_at: Time.current)
           puts "通知送信完了(ID:#{schedule.id})"
         rescue => e
           Rails.logger.error "LINE送信失敗 (ID: #{schedule.id}): #{e.message}"
@@ -24,4 +26,3 @@ class ScheduleNotificationService
       end
   end
 end
-
