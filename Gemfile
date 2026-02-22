@@ -67,4 +67,4 @@ gem 'omniauth-rails_csrf_protection'
 
 gem 'line-bot-api'
 
-gem 'gemini-ai'
+gem 'google-generative_ai'
