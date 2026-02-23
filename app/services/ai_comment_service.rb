@@ -5,7 +5,8 @@ require 'json'
 class AiCommentService
   def self.generate(schedule)
     api_key = ENV['GEMINI_API_KEY']
-    uri = URI.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=#{api_key}")
+    
+    uri = URI.parse("https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=#{api_key}")
     
     prompt = <<~PROMPT
       あなたは親切なリマインドアシスタントです。
@@ -40,11 +41,11 @@ class AiCommentService
         result.dig("candidates", 0, "content", "parts", 0, "text").strip
       else
         Rails.logger.error "Gemini API Error Response: #{response.body}"
-        "今日も一日応援しています！"
+        "リマインドです！今日も応援しています✨"
       end
     rescue => e
       Rails.logger.error "Gemini接続失敗: #{e.message}"
-      "リマインドです！頑張りましょう✨"
+      "リマインドです！素敵な一日になりますように。"
     end
   end
 end
