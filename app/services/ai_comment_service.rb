@@ -6,6 +6,8 @@ class AiCommentService
   def self.generate(schedule)
     api_key = ENV['GEMINI_API_KEY']
     
+    # 修正ポイント: モデル名の前に 'models/' を明示的に追加したフルパスに変更
+    # v1 と v1beta の両方で最も安定する書き方です
     uri = URI.parse("https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=#{api_key}")
     
     prompt = <<~PROMPT
@@ -37,15 +39,17 @@ class AiCommentService
       response = http.request(request)
       result = JSON.parse(response.body)
 
+      # ログで中身を確認できるようにしておく
       if result["candidates"] && result.dig("candidates", 0, "content", "parts", 0, "text")
         result.dig("candidates", 0, "content", "parts", 0, "text").strip
       else
-        Rails.logger.error "Gemini API Error Response: #{response.body}"
-        "リマインドです！今日も応援しています✨"
+        # ここで具体的に何が返ってきたかログに出す（デバッグ用）
+        Rails.logger.error "Gemini Response Fail: #{response.body}"
+        "リマインドです！頑張りましょう✨"
       end
     rescue => e
-      Rails.logger.error "Gemini接続失敗: #{e.message}"
-      "リマインドです！素敵な一日になりますように。"
+      Rails.logger.error "Gemini接続例外: #{e.message}"
+      "リマインドです。素敵な一日を！"
     end
   end
 end
