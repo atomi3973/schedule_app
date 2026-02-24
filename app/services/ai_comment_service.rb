@@ -7,7 +7,7 @@ class AiCommentService
     api_key = ENV['GEMINI_API_KEY']
     
    
-    uri = URI.parse("https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=#{api_key}")
+    uri = URI.parse("https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=#{api_key}")
     
     prompt = "あなたは親切なリマインドアシスタントです。予定「#{schedule.schedule_template.title}」に合わせて、ユーザーを励ます15文字以内の短い一言を作成してください。"
 
