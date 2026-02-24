@@ -7,7 +7,7 @@ class AiCommentService
     api_key = ENV['GEMINI_API_KEY']
     
    
-    uri = URI.parse("https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=#{api_key}")
+    uri = URI.parse("https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=#{api_key}")
     
    
     prompt = <<~PROMPT
