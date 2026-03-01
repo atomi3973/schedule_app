@@ -6,18 +6,24 @@ class AiCommentService
   def self.generate(schedule)
     api_key = ENV['GEMINI_API_KEY']
     
-   
     uri = URI.parse("https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=#{api_key}")
-    
-   
+
+    comment_type = schedule.schedule_template.comment_type || "応援"
+    title = schedule.schedule_template.title
+
     prompt = <<~PROMPT
       あなたは親切なリマインドアシスタントです。
-      予定「#{schedule.schedule_template.title}」に合わせて、ユーザーを励ます15文字以内の短い一言を作成してください。
+      予定「#{title}」の時間になったユーザーに対し、【#{comment_type}】という気分に寄り添った15文字以内の短い一言を作成してください。
 
-      【重要ルール】
-      - 挨拶、解説、提案、句読点の羅列は一切不要です。
-      - 「はい、承知いたしました」や「いかがでしょうか」等の前置き・後書きも絶対に書かないでください。
-      - 出力は「励ましの一言」そのもの1つだけにしてください。
+      【気分ごとの演じ分けルール】
+      - ポジティブ：最高の笑顔が見えるような、明るく前向きな応援。
+      - 応援：背中をそっと押すような、心強い味方としての励まし。
+      - 後悔：過去は気にせず、前を向けるような優しいフォロー。
+      - 罪悪感：自分を責めないで、と包み込むような温かい言葉。
+
+      【絶対守るべきルール】
+      - 挨拶、解説、提案（「〜はいかがでしょうか」など）は一切書かない。
+      - 返信は「励ましの一言」そのもの1つだけを出力する。
     PROMPT
 
     header = { 'Content-Type': 'application/json' }
@@ -37,17 +43,14 @@ class AiCommentService
       result = JSON.parse(response.body)
 
       if result["candidates"] && result.dig("candidates", 0, "content", "parts", 0, "text")
-      
-        ai_response = result.dig("candidates", 0, "content", "parts", 0, "text").strip
-        
-        ai_response.split("\n").first
+        # 最初の1行だけを取得し、余計な空白を削除
+        result.dig("candidates", 0, "content", "parts", 0, "text").strip.split("\n").first
       else
-        Rails.logger.error "Gemini API Error: #{response.body}"
-        "リマインドです！頑張りましょう✨"
+        "#{title}の時間ですよ。応援しています！"
       end
     rescue => e
-      Rails.logger.error "Gemini接続失敗: #{e.message}"
-      "応援しています！"
+      Rails.logger.error "Gemini接続エラー: #{e.message}"
+      "#{title}、頑張りましょう！"
     end
   end
 end
