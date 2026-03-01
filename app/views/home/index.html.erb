@@ -1,37 +1,82 @@
-<div class="max-w-md mx-auto mt-10 px-4">
-  <div class="bg-white shadow-md rounded-lg p-6 text-center">
+<div class="max-w-4xl mx-auto px-4 py-8">
 
-    <h2 class="text-lg font-bold mb-4">
-      サービスの説明
-    </h2>
-
-    <p class="text-sm text-gray-600 mb-6">
-      予定を「まあいいか」で終わらせないための自己管理サポートアプリです。
+  <div class="text-center mb-12">
+    <h1 class="text-3xl font-extrabold text-gray-900 mb-4">
+      予定を<span class="text-teal-600">「まぁいいか」</span>で終わらせない。
+    </h1>
+    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+      自己管理サポートアプリ「wasurenai」は、あなたの予定に
+      AIコメント付きでLINEリマインドします。
     </p>
+  </div>
 
-    <% if user_signed_in? %>
-      <!-- ログイン後に表示 -->
-      <p class="text-sm text-gray-700 mb-4">
-        ログイン中です
+  <div class="mb-12">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-8">AIによる通知スタイル</h2>
+    
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="p-5 bg-yellow-50 rounded-lg border border-yellow-100 text-center">
+        <div class="text-2xl mb-2">✨</div>
+        <h3 class="font-bold text-yellow-900 text-sm">ポジティブ</h3>
+        <p class="text-xs text-yellow-800 mt-1">やる気が出る言葉で応援</p>
+      </div>
+
+      <div class="p-5 bg-blue-50 rounded-lg border border-blue-100 text-center">
+        <div class="text-2xl mb-2">📣</div>
+        <h3 class="font-bold text-blue-900 text-sm">応援</h3>
+        <p class="text-xs text-blue-800 mt-1">背中をそっと押します</p>
+      </div>
+
+      <div class="p-5 bg-purple-50 rounded-lg border border-purple-100 text-center">
+        <div class="text-2xl mb-2">⚡️</div>
+        <h3 class="font-bold text-purple-900 text-sm">罪悪感</h3>
+        <p class="text-xs text-purple-800 mt-1">やらなきゃと焦らせる</p>
+      </div>
+
+      <div class="p-5 bg-red-50 rounded-lg border border-red-100 text-center">
+        <div class="text-2xl mb-2">🥵</div>
+        <h3 class="font-bold text-red-900 text-sm">後悔</h3>
+        <p class="text-xs text-red-800 mt-1">シビアな現実を伝える</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-md mx-auto">
+    <div class="bg-white shadow-md rounded-lg p-6 text-center border border-gray-100">
+
+      <h2 class="text-lg font-bold mb-4">
+        アプリを始める
+      </h2>
+
+      <p class="text-sm text-gray-600 mb-6">
+        <% if user_signed_in? %>
+          こんにちは、<%= current_user.name %>さん！
+        <% else %>
+          まずはLINEログインから！
+        <% end %>
       </p>
 
-      <%= button_to destroy_user_session_path,
-                    method: :delete,
-                    data: { turbo: false },
-                    class: "inline-block bg-gray-500 text-white font-semibold px-6 py-3 rounded-md hover:bg-gray-600" do %>
-        ログアウト
+      <% if user_signed_in? %>
+        <div class="flex flex-col gap-3">
+          <%= link_to "予定一覧へ", schedules_path, 
+              class: "inline-block bg-teal-500 text-white font-semibold px-6 py-3 rounded-md hover:bg-teal-600" %>
+          
+          <%= button_to destroy_user_session_path,
+                        method: :delete,
+                        data: { turbo: false },
+                        class: "inline-block bg-gray-200 text-gray-700 font-semibold px-6 py-3 rounded-md hover:bg-gray-300" do %>
+            ログアウト
+          <% end %>
+        </div>
+
+      <% else %>
+        <%= button_to user_line_omniauth_authorize_path,
+                      method: :post,
+                      data: { turbo: false },
+                      class: "inline-block bg-green-500 text-white font-semibold px-6 py-3 rounded-md hover:bg-green-600 w-full" do %>
+          LINEログイン
+        <% end %>
       <% end %>
 
-    <% else %>
-      <!-- 未ログイン時に表示 -->
-      <%= button_to user_line_omniauth_authorize_path,
-                    method: :post,
-                    data: { turbo: false },
-                    class: "inline-block bg-green-500 text-white font-semibold px-6 py-3 rounded-md hover:bg-green-600" do %>
-        LINEログイン
-      <% end %>
-    <% end %>
-
+    </div>
   </div>
 </div>
-

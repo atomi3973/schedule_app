@@ -1,18 +1,63 @@
-<div class="max-w-2xl mx-auto p-4">
+<div class="max-w-4xl mx-auto p-4">
   <h1 class="text-xl font-bold mb-6">予定一覧</h1>
 
-  <%= link_to "＋ 予定を追加",
-      new_schedule_path,
-      data: { turbo_frame: "modal" },
-      class: "inline-block bg-teal-500 text-white px-4 py-2 rounded mb-6" %>
+  <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 mb-6">
+    <%= form_with url: schedules_path, method: :get, local: true, class: "space-y-4" do |f| %>
+      <div class="flex flex-wrap gap-4 items-end">
+        
+        <% # タイトル検索 %>
+        <div class="flex flex-col gap-1">
+          <label class="text-xs text-gray-500 font-bold">予定名</label>
+          <%= f.text_field :title, value: params[:title], placeholder: "予定名で検索", 
+              class: "border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 outline-none" %>
+        </div>
+
+        <% # 期間検索 %>
+        <div class="flex flex-col gap-1">
+          <label class="text-xs text-gray-500 font-bold">期間</label>
+          <div class="flex items-center gap-1 border border-gray-300 rounded px-2 bg-white">
+            <%= f.date_field :start_date, value: params[:start_date], class: "py-2 text-sm outline-none" %>
+            <span class="text-gray-400">〜</span>
+            <%= f.date_field :end_date, value: params[:end_date], class: "py-2 text-sm outline-none" %>
+          </div>
+        </div>
+
+        <% # ステータス検索 %>
+        <div class="flex flex-col gap-1">
+          <label class="text-xs text-gray-500 font-bold">ステータス</label>
+          <%= f.select :status, 
+              [["すべて", ""], ["完了", "completed"], ["未実行", "pending"]], 
+              { selected: params[:status] }, 
+              { class: "border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 outline-none bg-white" } %>
+        </div>
+
+        <% # ボタン類 %>
+        <div class="flex gap-2">
+          <%= f.submit "検索", class: "bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded text-sm font-bold cursor-pointer transition" %>
+          <% if params[:title].present? || params[:start_date].present? || params[:end_date].present? || params[:status].present? %>
+            <%= link_to "クリア", schedules_path, class: "bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded text-sm flex items-center" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-6">
+    <%= link_to "＋ 予定を追加",
+        new_schedule_path,
+        data: { turbo_frame: "modal" },
+        class: "inline-block bg-teal-500 text-white px-4 py-2 rounded shadow-sm hover:bg-teal-600 transition" %>
+  </div>
 
   <turbo-frame id="modal"></turbo-frame>
 
-  <ul id="schedules_list" class="space-y-3 mt-4">
+  <ul id="schedules_list" class="space-y-3">
     <%= render @schedules %>
   </ul>
 
   <% if @schedules.empty? %>
-    <p id="empty_message" class="text-gray-500 mt-8 text-center">まだ予定がありません</p>
+    <p id="empty_message" class="text-gray-500 mt-12 text-center">
+      <%= (params[:title].present? || params[:status].present? || params[:start_date].present?) ? "条件に合う予定が見つかりませんでした" : "まだ予定がありません" %>
+    </p>
   <% end %>
 </div>
