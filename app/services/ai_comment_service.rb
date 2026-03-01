@@ -8,7 +8,7 @@ class AiCommentService
     
     uri = URI.parse("https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=#{api_key}")
 
-    comment_type = schedule.schedule_template.comment_type || "応援"
+    comment_type = schedule.comment_type || "応援"
     title = schedule.schedule_template.title
 
     prompt = <<~PROMPT
