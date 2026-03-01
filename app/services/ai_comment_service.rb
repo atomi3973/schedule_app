@@ -12,7 +12,7 @@ class AiCommentService
     title = schedule.schedule_template.title
 
     prompt = <<~PROMPT
-      あなたは親切なリマインドアシスタントです。
+      あなたはリマインドアシスタントです。
       予定「#{title}」の時間になったユーザーに対し、【#{comment_type}】という気分に寄り添った50文字以内のコメントを作成してください。
 
       【気分ごとの演じ分けルール】
