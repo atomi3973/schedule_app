@@ -8,7 +8,7 @@ class AiCommentService
     
     uri = URI.parse("https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=#{api_key}")
 
-    comment_type = schedule.comment_type 
+    comment_type = schedule.comment_type.name
     title = schedule.schedule_template.title
 
     prompt = <<~PROMPT
@@ -19,7 +19,7 @@ class AiCommentService
       - ポジティブ：最高の笑顔が見えるような、明るく前向きな応援。
       - 応援：背中をそっと押すような、心強い味方としての励まし。
       - 後悔：この予定を逃したら、後悔する。具体的にコメント
-      - 罪悪感：この予定を逃したら、他の人に迷惑など、の罪悪感コメント。
+      - 罪悪感：この予定を逃したら、罪悪感、自己嫌悪を感じさせるコメント。
 
       【絶対守るべきルール】
       - 挨拶、解説、提案（「〜はいかがでしょうか」など）は一切書かない。
